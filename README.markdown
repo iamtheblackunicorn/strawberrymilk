@@ -24,11 +24,11 @@ To compile ***JAML***, follow these steps:
 
 - 1.) Get the source code:
 ```bash
-$ git clone https://github.com/iamtheblackunicorn/jaml.git
+$ git clone https://github.com/iamtheblackunicorn/strawberrymilk.git
 ```
 - 2.) Change directory:
 ```bash
-$ cd jaml
+$ cd strawberrymilk
 ```
 - 3.) Build the source code:
 ```bash

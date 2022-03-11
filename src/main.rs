@@ -125,28 +125,33 @@ fn raw_list_files(dir: String) -> Vec<String> {
 fn toolchain(project_path: String){
     let project_path_clone = project_path.clone();
     let config_path: String = format!("{}/{}", project_path, constants()["config_file"]);
-    let settings: HashMap<String, String> = get_config(config_path);
-    if settings.contains_key(&String::from("name")) && settings.contains_key(&String::from("content")) && settings.contains_key(&String::from("styles")) && settings.contains_key(&String::from("output")) {
-        let content_path = format!("{}/{}", project_path_clone, settings["content"].clone());
-        let content_files: Vec<String> = raw_list_files(content_path);
-        if content_files.len() == 0 {
-            println!("Invalid content path set!");
+    if file_is(config_path) {
+        let settings: HashMap<String, String> = get_config(config_path);
+        if settings.contains_key(&String::from("name")) && settings.contains_key(&String::from("content")) && settings.contains_key(&String::from("styles")) && settings.contains_key(&String::from("output")) {
+            let content_path = format!("{}/{}", project_path_clone, settings["content"].clone());
+            let content_files: Vec<String> = raw_list_files(content_path);
+            if content_files.len() == 0 {
+                println!("Invalid content path set!");
+            }
+            else {
+                let mut content_list: Vec<String> = Vec::new();
+                for file in content_files {
+                    content_list.push(markdown::to_html(&read_file(file)));
+                }
+                let content: String = content_list.join("");
+                let heading_one: String = format!("<h1>{}</h1>",settings["name"].clone());
+                let final_content: String = format!("<!DOCTYPE html>\n<html>\n<head>\n<title>{}</title>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"{}\">\n</head>\n<body>\n{}{}\n</body>\n</html>", settings["name"].clone(),settings["styles"].clone(), heading_one, content);
+                create_file(settings["output"].clone());
+                write_to_file(settings["output"].clone(), final_content);
+            }
+
         }
         else {
-            let mut content_list: Vec<String> = Vec::new();
-            for file in content_files {
-                content_list.push(markdown::to_html(&read_file(file)));
-            }
-            let content: String = content_list.join("");
-            let heading_one: String = format!("<h1>{}</h1>",settings["name"].clone());
-            let final_content: String = format!("<!DOCTYPE html>\n<html>\n<head>\n<title>{}</title>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"{}\">\n</head>\n<body>\n{}{}\n</body>\n</html>", settings["name"].clone(),settings["styles"].clone(), heading_one, content);
-            create_file(settings["output"].clone());
-            write_to_file(settings["output"].clone(), final_content);
+            println!("There was an error in your project configuration.")
         }
-
     }
     else {
-        println!("There was an error in your project configuration.")
+        println!("'{}' could not be found.", constants()["config_file"]);
     }
 }
 
