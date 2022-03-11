@@ -15,11 +15,14 @@ run ***Strawberry Milk*** and voilá! You have a nice and shiny new webpage that
 
 ## BUILDING :pick:
 
+### Tools
+
 You will need the following tools installed and available:
 
 - Rust
 - Git
 
+### Steps
 
 - 1.) Get the source code:
 ```bash
@@ -52,7 +55,7 @@ $ strawberrymilk yourprojectdir
 
 ### Creating a new project.
 
-To create a new project, you need a file called `config.json`. It chould contain the following:
+To create a new project, you need a file called `config.json`. It could contain the following:
 
 ```JSON
 {
@@ -79,7 +82,7 @@ $ strawberrymilk .
 
 ## CONTRIBUTING :heart:
 
-If you have some suggestions for improvement or you want to contribute, either file an issue or fork the repository, make and test your changes, and file a Pull Request.
+If you have some suggestions for improvement or you want to contribute, either file an issue or fork the repository. Make and test your changes and file a Pull Request.
 
 ## CHANGELOG :black_nib:
 
