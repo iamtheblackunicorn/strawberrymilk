@@ -16,10 +16,6 @@ jobs:
       - uses: actions-rs/cargo@v1
         with:
           command: run
-          args: json test/jaml/sample.jaml
-      - uses: actions-rs/cargo@v1
-        with:
-          command: run
           args: example
       - uses: actions-rs/cargo@v1
         with:

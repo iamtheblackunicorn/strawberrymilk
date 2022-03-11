@@ -10,7 +10,7 @@
 
 ## ABOUT :books:
 
-Since I am also an author and artist, I was wondering how I would write a small program that turns files with content written in[Markdown](https://en.wikipedia.org/wiki/Markdown) into a website. ***Strawberry Milk*** is that tool. You initialize a new project, write your content in Markdown,
+Since I am also an author and artist, I was wondering how I would write a small program that turns files with content written in [Markdown](https://en.wikipedia.org/wiki/Markdown) into a website. ***Strawberry Milk*** is that tool. You initialize a new project, write your content in Markdown,
 run ***Strawberry Milk*** and voilá! You have a nice and shiny new webpage that has your content in it, styled and ready for the world!
 
 ## BUILDING :pick:
@@ -62,7 +62,7 @@ $ strawberrymilk new myproject
 ```
 
 This will create a new folder called `myproject`.
-Your file structure will look something like this:
+Your project's file structure will look something like this:
 
 ```text
 myproject
@@ -71,7 +71,7 @@ myproject
     └── 01.markdown
 ```
 
-The file `config.json` will contain the following:
+The file, `config.json`, will contain the following:
 
 ```JSON
 {
@@ -87,8 +87,6 @@ The file `config.json` will contain the following:
 - `styles`: To make your content look pretty, you need a stylesheet. Load this from somewhere else. ***Strawberry Milk*** doesn't support local stylesheets.
 - `output`: What is the output HTML file supposed to be called?
 
-You can customize these fields of course to what you feel comfortable with.
-
 Next, open up `01.markdown` located in the `content` folder. (Please note that this folder's name has to be the same as the `content` field in the configuration file.) It will contain something like this:
 
 ```markdown
@@ -96,13 +94,13 @@ Next, open up `01.markdown` located in the `content` folder. (Please note that t
 Your awesome content goes here.
 ```
 
-You can now fill this out and create Markdown files with numerical file names and when you are done, you can run this command in the project's root directory:
+You can now fill this out and create Markdown files with numerical filenames (`01.markdown`,`02.markdown`,`03.markdown`, etc.) and when you are done, you can run this command in the project's root directory:
 
 ```bash
 $ strawberrymilk .
 ```
 
-And if everything is A-OK, you should now have a file called `index.html` in a sub-directory called `build`.
+If everything is A-OK, you should now have a file called `index.html` in a sub-directory called `build`.
 
 ### Deployment to GitHub Pages.
 
@@ -124,10 +122,6 @@ jobs:
         with:
           command: build
           args: --release
-      - uses: actions-rs/cargo@v1
-        with:
-          command: run
-          args: json test/jaml/sample.jaml
       - uses: actions-rs/cargo@v1
         with:
           command: run
