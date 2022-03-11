@@ -1,0 +1,23 @@
+on: [push]
+name: Strawberry Milk CI
+jobs:
+  build_and_test:
+    name: Strawberry Milk
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --release
+      - uses: actions-rs/cargo@v1
+        with:
+          command: run
+          args: json test/jaml/sample.jaml
+      - uses: actions-rs/cargo@v1
+        with:
+          command: run
+          args: example
