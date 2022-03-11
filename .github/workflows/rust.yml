@@ -21,3 +21,14 @@ jobs:
         with:
           command: run
           args: example
+      - uses: actions-rs/cargo@v1
+        with:
+          command: run
+          args: new hello
+      - name: Checking.
+        run: ls && ls build
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4.2.5
+        with:
+          branch: gh-pages
+          folder: build

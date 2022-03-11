@@ -10,12 +10,31 @@ use std::path::Path;
 use markdown::to_html;
 use serde_json::from_str;
 use std::collections::HashMap;
+use fs_extra::file::move_file;
+use fs_extra::file::CopyOptions;
+use serde_json::to_string_pretty;
 
 /// Strawberry Milk's operational constants.
 fn constants() -> HashMap<String, String> {
-    let mut constants:HashMap<String, String> = HashMap::new();
+    let mut constants: HashMap<String, String> = HashMap::new();
     constants.insert(String::from("config_file"), String::from("config.json"));
+    constants.insert(String::from("build_dir"), String::from("build"));
     return constants;
+}
+
+/// What content to write to which files in a new Strawberry Milk project.
+fn project_file_contents_constants(name: String) -> HashMap<String, String> {
+    let project_name_clone = name.clone();
+    let mut project_constants: HashMap<String, String> = HashMap::new();
+    let mut project_dummy_settings: HashMap<String, String> = HashMap::new();
+    project_dummy_settings.insert(String::from("name"),project_name_clone);
+    project_dummy_settings.insert(String::from("content"),String::from("content"));
+    project_dummy_settings.insert(String::from("styles"),String::from("https://blckunicorn.art/assets/generic/strawberrymilk.css"));
+    project_dummy_settings.insert(String::from("output"),String::from("index.html"));
+    project_constants.insert(String::from("config_file"), to_string_pretty(&project_dummy_settings).unwrap());
+    project_constants.insert(String::from("markdown_sample"), String::from("# YOUR PROJECT\nYour awesome content goes here."));
+    project_constants.insert(String::from("gitignore"), String::from("/build\n.DS_Store"));
+    return project_constants;
 }
 
 // Returns a vector of strings from a character split for a string.
@@ -41,13 +60,40 @@ fn file_is(filename: String) -> bool {
     return result[0];
 }
 
-/// Tries to create a file and returns
+/// Tries to create a new file and returns
 /// a boolean depending on whether the
 /// operation succeeded.
 fn create_file(filename: String) -> bool {
     let mut result: Vec<bool> = Vec::new();
     let new_file = fs::File::create(filename);
     match new_file {
+        Ok(_n) => result.push(true),
+        Err(_x) => result.push(false)
+    }
+    return result[0];
+}
+
+/// Tries to create a new directory and returns
+/// a boolean depending on whether the
+/// operation succeeded.
+fn create_dir(path: String) -> bool {
+    let mut result: Vec<bool> = Vec::new();
+    let new_dir = fs::create_dir(path);
+    match new_dir {
+        Ok(_n) => result.push(true),
+        Err(_x) => result.push(false)
+    }
+    return result[0];
+}
+
+/// Tries to move a file from [src] to [target]
+/// and returns a boolean depending on whether the
+/// operation succeeded.
+fn file_move(src: String, target: String) -> bool {
+    let mut result: Vec<bool> = Vec::new();
+    let options = CopyOptions::new();
+    let move_op = move_file(src, target, &options);
+    match move_op {
         Ok(_n) => result.push(true),
         Err(_x) => result.push(false)
     }
@@ -87,7 +133,7 @@ fn get_json(subject: String) -> HashMap<String, String> {
     return from_str(&subject).unwrap();
 }
 
-/// Getting site settings.
+/// Getting site settings as a [HashMap<String, String>].
 fn get_config(config_path: String) -> HashMap<String, String> {
     let result = get_json(read_file(config_path));
     return result;
@@ -106,7 +152,7 @@ fn get_html_from_markdown(md_path:String) -> String {
 }
 
 /// Lists files with their full paths and returns
-/// [Vec<String>]
+/// [Vec<String>].
 fn raw_list_files(dir: String) -> Vec<String> {
     let mut result: Vec<String> = Vec::new();
     if Path::new(&dir).exists() {
@@ -118,6 +164,34 @@ fn raw_list_files(dir: String) -> Vec<String> {
     }
     else {}
     return result;
+}
+
+/// Scaffolds a new Strawberry Milk
+/// project.
+fn scaffold(name: String) {
+    let project_name_clone_one = name.clone();
+    let project_name_clone_two = project_name_clone_one.clone();
+    let project_name_clone_three = project_name_clone_two.clone();
+    let project_name_clone_four = project_name_clone_three.clone();
+    let project_name_clone_five = project_name_clone_four.clone();
+    let project_name_clone_six = project_name_clone_five.clone();
+    let project_name_clone_seven = project_name_clone_six.clone();
+    let project_name_clone_eight = project_name_clone_seven.clone();
+    let std_config: String = format!("{}/{}",project_name_clone_three,String::from("config.json"));
+    let std_md: String = format!("{}/{}/{}",project_name_clone_five,String::from("content"),String::from("01.markdown"));
+    let std_git_ignore: String = format!("{}/{}",project_name_clone_seven,String::from(".gitignore"));
+    let std_md_clone: String = std_md.clone();
+    let std_config_clone: String = std_config.clone();
+    let std_git_ignore_clone: String = std_git_ignore.clone();
+    let full_content_dir_path = format!("{}/{}", project_name_clone_one, String::from("content"));
+    create_dir(project_name_clone_two);
+    create_dir(full_content_dir_path);
+    create_file(std_config);
+    write_to_file(std_config_clone,project_file_contents_constants(project_name_clone_four)["config_file"].clone());
+    create_file(std_md);
+    write_to_file(std_md_clone,project_file_contents_constants(project_name_clone_six)["markdown_sample"].clone());
+    create_file(std_git_ignore);
+    write_to_file(std_git_ignore_clone,project_file_contents_constants(project_name_clone_eight)["gitignore"].clone());
 }
 
 
@@ -144,6 +218,8 @@ fn toolchain(project_path: String){
                 let final_content: String = format!("<!DOCTYPE html>\n<html>\n<head>\n<title>{}</title>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"{}\">\n</head>\n<body>\n{}{}\n</body>\n</html>", settings["name"].clone(),settings["styles"].clone(), heading_one, content);
                 create_file(settings["output"].clone());
                 write_to_file(settings["output"].clone(), final_content);
+                create_dir(constants()["build_dir"].clone());
+                file_move(settings["output"].clone(),format!("{}/{}",constants()["build_dir"].clone(),settings["output"].clone()));
             }
 
         }
@@ -172,6 +248,14 @@ fn cli(){
         }
         else {
             println!("The supplied directory doesn't exist!");
+        }
+    }
+    else if arg_len == 3 {
+        if args[1].clone() == "new" {
+            scaffold(args[2].clone());
+        }
+        else {
+            error_message();
         }
     }
     else {

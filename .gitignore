@@ -2,3 +2,4 @@
 *.lock
 *.html
 .DS_Store
+/build
