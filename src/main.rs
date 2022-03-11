@@ -215,7 +215,7 @@ fn toolchain(project_path: String){
                 }
                 let content: String = content_list.join("");
                 let heading_one: String = format!("<h1>{}</h1>",settings["name"].clone());
-                let final_content: String = format!("<!DOCTYPE html>\n<html>\n<head>\n<title>{}</title>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"{}\">\n</head>\n<body>\n{}{}\n</body>\n</html>", settings["name"].clone(),settings["styles"].clone(), heading_one, content);
+                let final_content: String = format!("<!DOCTYPE html>\n<html>\n<head>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>{}</title>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"{}\">\n</head>\n<body>\n{}{}\n</body>\n</html>", settings["name"].clone(),settings["styles"].clone(), heading_one, content);
                 create_file(settings["output"].clone());
                 write_to_file(settings["output"].clone(), final_content);
                 create_dir(constants()["build_dir"].clone());

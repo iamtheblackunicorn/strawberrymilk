@@ -10,8 +10,8 @@
 
 ## ABOUT :books:
 
-Since I am also an author and artist, I was wondering how I would write a small program that turns Markdown content into a website. ***Strawberry Milk*** is that tool. You write a small configuration file, `config.json`, write your Markdown content,
-run ***Strawberry Milk*** and voilá! You have a nice and shiny new webpage that has your content in it, styled and perfected.
+Since I am also an author and artist, I was wondering how I would write a small program that turns files with content written in[Markdown](https://en.wikipedia.org/wiki/Markdown) into a website. ***Strawberry Milk*** is that tool. You initialize a new project, write your content in Markdown,
+run ***Strawberry Milk*** and voilá! You have a nice and shiny new webpage that has your content in it, styled and ready for the world!
 
 ## BUILDING :pick:
 
@@ -55,29 +55,88 @@ $ strawberrymilk yourprojectdir
 
 ### Creating a new project.
 
-To create a new project, you need a file called `config.json`. It could contain the following:
+To create a new project, run the following command:
+
+```bash
+$ strawberrymilk new myproject
+```
+
+This will create a new folder called `myproject`.
+Your file structure will look something like this:
+
+```text
+myproject
+├── config.json
+└── content
+    └── 01.markdown
+```
+
+The file `config.json` will contain the following:
 
 ```JSON
 {
-  "name":"Strawberry Milk Test",
-  "content":"content",
-  "styles":"https://blckunicorn.art/assets/generic/strawberrymilk.css",
-  "output":"index.html"
+  "styles": "https://blckunicorn.art/assets/generic/strawberrymilk.css",
+  "content": "content",
+  "name": "myproject",
+  "output": "index.html"
 }
 ```
 
 - `name`: What is your project called?
-- `content`: Where are the Markdown files to be compiled?
+- `content`: Which sub-folder contains the project's Markdown files?
 - `styles`: To make your content look pretty, you need a stylesheet. Load this from somewhere else. ***Strawberry Milk*** doesn't support local stylesheets.
 - `output`: What is the output HTML file supposed to be called?
 
-After you have done this, you need to create a directory by the name of what you filled the `content` field with.
-In this directory, create your Markdown files with your content.
+You can customize these fields of course to what you feel comfortable with.
 
-Once that is done, change directory to where `config.json` is located and run this command:
+Next, open up `01.markdown` located in the `content` folder. (Please note that this folder's name has to be the same as the `content` field in the configuration file.) It will contain something like this:
+
+```markdown
+# YOUR PROJECT
+Your awesome content goes here.
+```
+
+You can now fill this out and create Markdown files with numerical file names and when you are done, you can run this command in the project's root directory:
 
 ```bash
 $ strawberrymilk .
+```
+
+And if everything is A-OK, you should now have a file called `index.html` in a sub-directory called `build`.
+
+### Deployment to GitHub Pages.
+
+If you have a GitHub account, you can upload your project to a repository, create a new branch called `gh-pages`, create a new file called `rust.yml` at `.github/workflows` in your repository, fill it with the code below, and voilá: You can now view your project on the web under the URL of `yourusername.github.io/yourporject`.
+
+```YAML
+on: [push]
+name: Strawberry Milk Project CI
+jobs:
+  build_and_test:
+    name: Strawberry Milk Project CI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --release
+      - uses: actions-rs/cargo@v1
+        with:
+          command: run
+          args: json test/jaml/sample.jaml
+      - uses: actions-rs/cargo@v1
+        with:
+          command: run
+          args: .
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4.2.5
+        with:
+          branch: gh-pages
+          folder: build
 ```
 
 ## CONTRIBUTING :heart:
