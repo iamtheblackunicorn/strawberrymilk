@@ -20,7 +20,6 @@ You will need the following tools installed and available:
 - Rust
 - Git
 
-To compile ***JAML***, follow these steps:
 
 - 1.) Get the source code:
 ```bash

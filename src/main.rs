@@ -99,7 +99,7 @@ fn get_html_from_markdown(md_path:String) -> String {
     let mut result: String = String::from("");
     let md_path_clone = md_path.clone();
     if file_is(md_path) == true {
-        result = markdown::to_html(&read_file(md_path_clone));
+        result = to_html(&read_file(md_path_clone));
     }
     else {}
     return result;
@@ -125,8 +125,9 @@ fn raw_list_files(dir: String) -> Vec<String> {
 fn toolchain(project_path: String){
     let project_path_clone = project_path.clone();
     let config_path: String = format!("{}/{}", project_path, constants()["config_file"]);
+    let config_path_clone = config_path.clone();
     if file_is(config_path) {
-        let settings: HashMap<String, String> = get_config(config_path);
+        let settings: HashMap<String, String> = get_config(config_path_clone);
         if settings.contains_key(&String::from("name")) && settings.contains_key(&String::from("content")) && settings.contains_key(&String::from("styles")) && settings.contains_key(&String::from("output")) {
             let content_path = format!("{}/{}", project_path_clone, settings["content"].clone());
             let content_files: Vec<String> = raw_list_files(content_path);
@@ -136,7 +137,7 @@ fn toolchain(project_path: String){
             else {
                 let mut content_list: Vec<String> = Vec::new();
                 for file in content_files {
-                    content_list.push(markdown::to_html(&read_file(file)));
+                    content_list.push(to_html(&read_file(file)));
                 }
                 let content: String = content_list.join("");
                 let heading_one: String = format!("<h1>{}</h1>",settings["name"].clone());
@@ -156,7 +157,7 @@ fn toolchain(project_path: String){
 }
 
 /// A small error message
-/// in case someone misuses JAML.
+/// in case someone misuses Strawberry Milk.
 fn error_message() {
     println!("Wrong usage!");
 }
@@ -166,7 +167,7 @@ fn cli(){
     let args: Vec<String> = env::args().collect();
     let arg_len = args.len();
     if arg_len == 2 {
-        if Path::new(args[1].clone()).exists() {
+        if Path::new(&args[1].clone()).exists() {
             toolchain(args[1].clone());
         }
         else {
