@@ -13,6 +13,10 @@
 Since I am also an author and artist, I was wondering how I would write a small program that turns files with content written in [Markdown](https://en.wikipedia.org/wiki/Markdown) into a website. ***Strawberry Milk*** is that tool. You initialize a new project, write your content in Markdown,
 run ***Strawberry Milk*** and voilá! You have a nice and shiny new webpage that has your content in it, styled and ready for the world!
 
+## EXAMPLE PROJECT :test_tube:
+
+You can view a live, deployed ***Strawberry Milk*** project [here](https://blckunicorn.art/strawberrymilk).
+
 ## BUILDING :pick:
 
 ### Tools
