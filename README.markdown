@@ -135,7 +135,7 @@ jobs:
 
 ## CONTRIBUTING :heart:
 
-If you have some suggestions for improvement or you want to contribute, either file an issue or fork the repository. Make and test your changes and file a Pull Request.
+If you have some suggestions for improvement or you want to contribute, either file an issue or fork the repository. If you want to do the latter, make and test your changes, and file a Pull Request.
 
 ## CHANGELOG :black_nib:
 
