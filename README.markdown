@@ -1,5 +1,5 @@
 <p align="center">
- <img src="/assets/banner.png"/>
+ <img src="https://github.com/iamtheblackunicorn/strawberrymilk/raw/main/assets/banner.png"/>
 </p>
 
 # STRAWBERRY MILK
@@ -145,8 +145,13 @@ If you have some suggestions for improvement or you want to contribute, either f
 
 ### Version 1.0.0
 
-- initial release
-- upload to GitHub
+- Initial release.
+- Upload to GitHub.
+
+### Version 1.1.0
+
+- Updated documentation.
+- Upload to [crates.io](https://crates.io).
 
 ## NOTE :scroll:
 
