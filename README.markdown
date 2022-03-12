@@ -43,7 +43,7 @@ $ cargo build --release
 
 ## INSTALLATION
 
-Move the executable on the path `strawberrymilk/target/release/strawberrymilk` to the directory where you keep your binary executables. If you are on Linux or Mac OSX, you might have to change permissions like this: `chmod a+x strawberrymilk`.
+Move the executable on the path `strawberrymilk/target/release/strawberrymilk` to the directory where you keep your binary executables. If you are on Linux or Mac OSX, you might have to change permissions like this: `chmod a+x strawberrymilk`. If you have Rust's package manager installed, running `cargo install strawberrymilk` from a terminal window should also install ***Strawberry Milk***.
 
 ## USAGE
 
