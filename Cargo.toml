@@ -1,7 +1,17 @@
 [package]
 name = "strawberrymilk"
-version = "0.1.0"
+version = "1.0.0"
 edition = "2021"
+license = "MIT"
+authors = ["Alexander Abraham <youreccentricity@outlook.com>"]
+description= "Provides useful functions for prime numbers."
+homepage = "https://github.com/iamtheblackunicorn/strawberrymilk"
+repository = "https://github.com/iamtheblackunicorn/strawberrymilk"
+documentation = "https://github.com/iamtheblackunicorn/strawberrymilk"
+readme = "README.markdown"
+keywords = ["static", "site", "generator"]
+categories = ["command-line-utilities", "science", "maths"]
+exclude = ["/.github"]
 
 [dependencies]
 serde_json="*"
