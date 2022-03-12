@@ -2,9 +2,9 @@
  <img src="/assets/banner.png"/>
 </p>
 
-# STRAWBERRY MILK :strawberry: :milk_glass: :crab:
+# STRAWBERRY MILK
 
-***A small, sweet tool written in Rust to compile your content for the web.:strawberry: :milk_glass: :crab:***
+***A small, sweet tool written in Rust to compile your content for the web.***
 
 ![GitHub CI](https://github.com/iamtheblackunicorn/strawberrymilk/actions/workflows/rust.yml/badge.svg)
 
@@ -13,11 +13,11 @@
 Since I am also an author and artist, I was wondering how I would write a small program that turns files with content written in [Markdown](https://en.wikipedia.org/wiki/Markdown) into a website. ***Strawberry Milk*** is that tool. You initialize a new project, write your content in Markdown,
 run ***Strawberry Milk*** and voilá! You have a nice and shiny new webpage that has your content in it, styled and ready for the world!
 
-## EXAMPLE PROJECT :test_tube:
+## EXAMPLE PROJECT
 
 You can view a live, deployed ***Strawberry Milk*** project [here](https://blckunicorn.art/strawberrymilk).
 
-## BUILDING :pick:
+## BUILDING
 
 ### Tools
 
@@ -41,11 +41,11 @@ $ cd strawberrymilk
 $ cargo build --release
 ```
 
-## INSTALLATION :inbox_tray:
+## INSTALLATION
 
 Move the executable on the path `strawberrymilk/target/release/strawberrymilk` to the directory where you keep your binary executables. If you are on Linux or Mac OSX, you might have to change permissions like this: `chmod a+x strawberrymilk`.
 
-## USAGE :hammer:
+## USAGE
 
 ### Command-line usage
 
@@ -137,11 +137,11 @@ jobs:
           folder: build
 ```
 
-## CONTRIBUTING :heart:
+## CONTRIBUTING
 
 If you have some suggestions for improvement or you want to contribute, either file an issue or fork the repository. If you want to do the latter, make and test your changes, and file a Pull Request.
 
-## CHANGELOG :black_nib:
+## CHANGELOG
 
 ### Version 1.0.0
 
@@ -150,5 +150,5 @@ If you have some suggestions for improvement or you want to contribute, either f
 
 ## NOTE :scroll:
 
-- *Strawberry Milk :strawberry: :milk_glass: :crab:* by Alexander Abraham a.k.a. *"The Black Unicorn"*
+- *Strawberry Milk* by Alexander Abraham a.k.a. *"The Black Unicorn"*
 - Licensed under the MIT license.
