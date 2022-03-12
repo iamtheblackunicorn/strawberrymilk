@@ -16,5 +16,4 @@ exclude = ["/.github"]
 [dependencies]
 serde_json="*"
 markdown="*"
-clap="*"
 fs_extra="*"
