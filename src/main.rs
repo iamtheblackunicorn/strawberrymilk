@@ -6,6 +6,8 @@ Licensed under the MIT license.
 
 use std::fs;
 use std::env;
+use liquid::*;
+use kstring::*;
 use std::path::Path;
 use markdown::to_html;
 use serde_json::from_str;
@@ -193,15 +195,22 @@ fn scaffold(name: String) {
     create_file(std_git_ignore);
     write_to_file(std_git_ignore_clone,project_file_contents_constants(project_name_clone_eight)["gitignore"].clone());
 }
-
+#[derive(liquid::ObjectView)]
+struct Context {
+    project: HashMap<String, String>,
+    pages: Vec<HashMap<String, String>>
+}
 
 /// Compiles a Strawberry Milk project!
 fn toolchain(project_path: String){
     let project_path_clone = project_path.clone();
+    let project_path_clone_one = project_path_clone.clone();
+    let project_path_clone_two = project_path_clone_one.clone();
     let config_path: String = format!("{}/{}", project_path, constants()["config_file"]);
     let config_path_clone = config_path.clone();
     if file_is(config_path) {
         let settings: HashMap<String, String> = get_config(config_path_clone);
+        let settings_clone: HashMap<String, String> = settings.clone();
         if settings.contains_key(&String::from("name")) && settings.contains_key(&String::from("content")) && settings.contains_key(&String::from("styles")) && settings.contains_key(&String::from("output")) {
             let content_path = format!("{}/{}", project_path_clone, settings["content"].clone());
             let content_files: Vec<String> = raw_list_files(content_path);
@@ -209,19 +218,45 @@ fn toolchain(project_path: String){
                 println!("Invalid content path set!");
             }
             else {
-                let mut content_list: Vec<String> = Vec::new();
-                for file in content_files {
-                    content_list.push(to_html(&read_file(file)));
+                if settings.contains_key(&String::from("use_template")) && settings.contains_key(&String::from("template_path")) {
+                    if settings["use_template"].clone() == "true" && file_is(format!("{}/{}",project_path_clone_one,settings["template_path"].clone())) == true {
+                        let mut content_list: Vec<HashMap<String,String>> = Vec::new();
+                        for file in content_files {
+                            let mut cont_hash: HashMap<String,String> = HashMap::new();
+                            cont_hash.insert(String::from("name"),to_html(&read_file(file)));
+                            content_list.push(cont_hash);
+                        }
+                        let template_path: String = format!("{}/{}",project_path_clone_two,settings["template_path"].clone());
+                        let liquid_string = ParserBuilder::with_stdlib().build().unwrap().parse(&read_file(template_path)).unwrap();
+                        let project = Context{
+                            project:settings_clone,
+                            pages:content_list
+                        };
+                        let mut globals = object!(project);
+                        let output = liquid_string.render(&globals);
+                        //create_file(settings["output"].clone());
+                        //write_to_file(settings["output"].clone(), final_content);
+                        //create_dir(constants()["build_dir"].clone());
+                        //file_move(settings["output"].clone(),format!("{}/{}",constants()["build_dir"].clone(),settings["output"].clone()));
+                    }
+                    else {
+                        println!("Template not found or the \'use_template\' was set to \'false\'!");
+                    }
                 }
-                let content: String = content_list.join("");
-                let heading_one: String = format!("<h1>{}</h1>",settings["name"].clone());
-                let final_content: String = format!("<!DOCTYPE html>\n<html>\n<head>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>{}</title>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"{}\">\n</head>\n<body>\n{}{}\n</body>\n</html>", settings["name"].clone(),settings["styles"].clone(), heading_one, content);
-                create_file(settings["output"].clone());
-                write_to_file(settings["output"].clone(), final_content);
-                create_dir(constants()["build_dir"].clone());
-                file_move(settings["output"].clone(),format!("{}/{}",constants()["build_dir"].clone(),settings["output"].clone()));
+                else {
+                    let mut content_list: Vec<String> = Vec::new();
+                    for file in content_files {
+                        content_list.push(to_html(&read_file(file)));
+                    }
+                    let content: String = content_list.join("");
+                    let heading_one: String = format!("<h1>{}</h1>",settings["name"].clone());
+                    let final_content: String = format!("<!DOCTYPE html>\n<html>\n<head>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>{}</title>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"{}\">\n</head>\n<body>\n{}{}\n</body>\n</html>", settings["name"].clone(),settings["styles"].clone(), heading_one, content);
+                    create_file(settings["output"].clone());
+                    write_to_file(settings["output"].clone(), final_content);
+                    create_dir(constants()["build_dir"].clone());
+                    file_move(settings["output"].clone(),format!("{}/{}",constants()["build_dir"].clone(),settings["output"].clone()));
+                }
             }
-
         }
         else {
             println!("There was an error in your project configuration.")

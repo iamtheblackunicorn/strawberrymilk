@@ -17,3 +17,5 @@ exclude = ["/.github", "example", "assets"]
 serde_json = "1.0.79"
 markdown = "0.3.0"
 fs_extra = "1.2.0"
+liquid = "0.24.0"
+kstring = "1.0.6"

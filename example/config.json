@@ -1,6 +1,8 @@
 {
   "name":"Strawberry Milk Test",
   "content":"content",
+  "use_template":"true",
+  "template_path":"template.html",
   "styles":"https://blckunicorn.art/assets/generic/strawberrymilk.css",
   "output":"index.html"
 }

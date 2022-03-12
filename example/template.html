@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+ <head>
+  <meta charset="UTF-8"/>
+  <title>{{ project.name }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" type="text/css" href="https://blckunicorn.art/assets/css/blackmansion.css"/>
+ </head>
+
+ <body>
+
+  <h1>{{ project.name }}</h1>
+
+  {% for page in project.pages %}
+  <br/>
+  <div class="content">
+    {{ page.content }}
+  </div>
+  <br/>
+  {% endfor %}
+
+ </body>
+</html>
