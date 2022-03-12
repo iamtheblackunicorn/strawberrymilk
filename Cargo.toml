@@ -10,7 +10,7 @@ repository = "https://github.com/iamtheblackunicorn/strawberrymilk"
 documentation = "https://github.com/iamtheblackunicorn/strawberrymilk"
 readme = "README.markdown"
 keywords = ["static", "site", "generator"]
-categories = ["command-line-utilities", "science", "maths"]
+categories = ["command-line-utilities"]
 exclude = ["/.github"]
 
 [dependencies]
