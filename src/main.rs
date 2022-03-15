@@ -90,7 +90,7 @@ fn create_dir(path: String) -> bool {
     return result[0];
 }
 
-/// Tries to move a file from [src] to [target]
+/// Tries to move a file from "src" to "target"
 /// and returns a boolean depending on whether the
 /// operation succeeded.
 fn file_move(src: String, target: String) -> bool {
@@ -197,6 +197,8 @@ fn scaffold(name: String) {
     create_file(std_git_ignore);
     write_to_file(std_git_ignore_clone,project_file_contents_constants(project_name_clone_eight)["gitignore"].clone());
 }
+
+/// A struct to contain template data.
 #[derive(Debug)]
 #[derive(ObjectView,ValueView)]
 struct Context {

@@ -172,6 +172,11 @@ If you have some suggestions for improvement or you want to contribute, either f
 - Updated documentation.
 - Upload to [crates.io](https://crates.io).
 
+### Version 1.2.0
+
+- Added custom-templating.
+- Users can add their own templates and use them.
+
 ## NOTE :scroll:
 
 - *Strawberry Milk* by Alexander Abraham a.k.a. *"The Black Unicorn"*
