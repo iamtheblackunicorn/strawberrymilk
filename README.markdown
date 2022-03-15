@@ -8,7 +8,7 @@
 
 ![GitHub CI](https://github.com/iamtheblackunicorn/strawberrymilk/actions/workflows/rust.yml/badge.svg)
 
-## ABOUT :books:
+## ABOUT
 
 Since I am also an author and artist, I was wondering how I would write a small program that turns files with content written in [Markdown](https://en.wikipedia.org/wiki/Markdown) into a website. ***Strawberry Milk*** is that tool. You initialize a new project, write your content in Markdown,
 run ***Strawberry Milk*** and voilá! You have a nice and shiny new webpage that has your content in it, styled and ready for the world!
@@ -90,6 +90,8 @@ The file, `config.json`, will contain the following:
 - `content`: Which sub-folder contains the project's Markdown files?
 - `styles`: To make your content look pretty, you need a stylesheet. Load this from somewhere else. ***Strawberry Milk*** doesn't support local stylesheets.
 - `output`: What is the output HTML file supposed to be called?
+- `use_template`: If you would like to use a [Liquid](https://shopify.github.io/liquid/) template, set this to `true` or `false`.
+- `template_path`: This field tells ***Strawberry Milk*** where your template is located in the project.
 
 Next, open up `01.markdown` located in the `content` folder. (Please note that this folder's name has to be the same as the `content` field in the configuration file.) It will contain something like this:
 
@@ -97,6 +99,23 @@ Next, open up `01.markdown` located in the `content` folder. (Please note that t
 # YOUR PROJECT
 Your awesome content goes here.
 ```
+
+If you are using a template, all variables from the configuration file are available under `{{ project.variable }}`. `variable` represents the field name from your `config.json` file.
+
+To iterate over the content in the template like this for example:
+
+```Liquid
+{% for page in pages %}
+<br/>
+<div class="content">
+  {{ page.content }}
+</div>
+<br/>
+{% endfor %}
+```
+
+***Strawberry Milk*** gives you access to your content via the `{{ pages }}` variable. Note that ***Strawberry Milk*** will "panic" if you make any mistakes.
+
 
 You can now fill this out and create Markdown files with numerical filenames (`01.markdown`,`02.markdown`,`03.markdown`, etc.) and when you are done, you can run this command in the project's root directory:
 
