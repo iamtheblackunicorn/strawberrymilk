@@ -9,7 +9,9 @@ use std::env;
 use liquid::*;
 use kstring::*;
 use std::path::Path;
+use liquid::ValueView;
 use markdown::to_html;
+use liquid::ObjectView;
 use serde_json::from_str;
 use std::collections::HashMap;
 use fs_extra::file::move_file;
@@ -195,7 +197,8 @@ fn scaffold(name: String) {
     create_file(std_git_ignore);
     write_to_file(std_git_ignore_clone,project_file_contents_constants(project_name_clone_eight)["gitignore"].clone());
 }
-#[derive(liquid::{ObjectView,ValueView})]
+#[derive(Debug)]
+#[derive(ObjectView,ValueView)]
 struct Context {
     project: HashMap<String, String>,
     pages: Vec<HashMap<String, String>>
@@ -223,21 +226,21 @@ fn toolchain(project_path: String){
                         let mut content_list: Vec<HashMap<String,String>> = Vec::new();
                         for file in content_files {
                             let mut cont_hash: HashMap<String,String> = HashMap::new();
-                            cont_hash.insert(String::from("name"),to_html(&read_file(file)));
+                            cont_hash.insert(String::from("content"),to_html(&read_file(file)));
                             content_list.push(cont_hash);
                         }
                         let template_path: String = format!("{}/{}",project_path_clone_two,settings["template_path"].clone());
                         let liquid_string = ParserBuilder::with_stdlib().build().unwrap().parse(&read_file(template_path)).unwrap();
-                        let project = Context{
+                        let context = Context{
                             project:settings_clone,
                             pages:content_list
                         };
-                        let mut globals = object!(project);
-                        let output = liquid_string.render(&globals);
-                        //create_file(settings["output"].clone());
-                        //write_to_file(settings["output"].clone(), final_content);
-                        //create_dir(constants()["build_dir"].clone());
-                        //file_move(settings["output"].clone(),format!("{}/{}",constants()["build_dir"].clone(),settings["output"].clone()));
+                        let mut globals = object!(context);
+                        let output = liquid_string.render(&globals).unwrap();
+                        create_file(settings["output"].clone());
+                        write_to_file(settings["output"].clone(), output);
+                        create_dir(constants()["build_dir"].clone());
+                        file_move(settings["output"].clone(),format!("{}/{}",constants()["build_dir"].clone(),settings["output"].clone()));
                     }
                     else {
                         println!("Template not found or the \'use_template\' was set to \'false\'!");
