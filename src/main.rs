@@ -195,7 +195,7 @@ fn scaffold(name: String) {
     create_file(std_git_ignore);
     write_to_file(std_git_ignore_clone,project_file_contents_constants(project_name_clone_eight)["gitignore"].clone());
 }
-#[derive(liquid::ObjectView)]
+#[derive(liquid::{ObjectView,ValueView})]
 struct Context {
     project: HashMap<String, String>,
     pages: Vec<HashMap<String, String>>
